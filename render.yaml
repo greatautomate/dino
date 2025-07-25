@@ -1,0 +1,109 @@
+services:
+  # Neko-Webscout Full-Stack Application
+  - type: web
+    name: neko-webscout-fullstack
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm run render:build
+    startCommand: npm run render:start
+
+    # 🔧 CUSTOMIZATION GUIDE:
+    # To add your own API servers, modify the REACT_APP_BASE_URL below
+    # Format: {"Display Name": "https://your-api-url.com"}
+    # Examples:
+    # - Better price: "https://cheap-api.com"
+    # - Better stability: "https://stable-api.com"
+    # - No subscription: "https://free-api.com"
+    # You can add as many servers as you want for comparison
+
+    envVars:
+      # Python configuration
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend
+      - key: PORT
+        fromService:
+          type: web
+          name: neko-webscout-fullstack
+          property: port
+      
+      # Application configuration
+      - key: NO_AUTH
+        value: "true"
+      - key: NO_RATE_LIMIT
+        value: "true"
+      - key: DEBUG
+        value: "false"
+      
+      # Feature flags
+      - key: REACT_APP_ENABLE_WEBSCOUT
+        value: "true"
+      - key: REACT_APP_ENABLE_SEARCH
+        value: "true"
+      - key: REACT_APP_ENABLE_IMAGE_GEN
+        value: "true"
+      - key: REACT_APP_ENABLE_TTS
+        value: "true"
+      - key: REACT_APP_ENABLE_WEATHER
+        value: "true"
+      
+      # Default configuration
+      - key: REACT_APP_DEFAULT_PROVIDER
+        value: "openai"
+      - key: REACT_APP_DEFAULT_MODEL
+        value: "gpt-3.5-turbo"
+      
+      # Server configuration (easily customizable - replace with your preferred URLs)
+      # Format: {"Display Name": "https://your-api-url.com"}
+      # You can add multiple servers for comparison
+      - key: REACT_APP_BASE_URL
+        value: '{"Local Backend": "/api", "Better Price Server": "https://your-better-price-api.com", "Stable Server": "https://your-stable-api.com", "No Subscription Server": "https://your-no-subscription-api.com"}'
+      
+      # Display settings
+      - key: REACT_APP_SHOW_BALANCE
+        value: "true"
+      - key: REACT_APP_SHOW_DETAIL
+        value: "true"
+      - key: REACT_APP_SHOW_ICONGITHUB
+        value: "true"
+      
+      # Optional API keys (set these in Render dashboard for production)
+      - key: OPENAI_API_KEY
+        value: ""
+      - key: GOOGLE_API_KEY
+        value: ""
+      - key: ANTHROPIC_API_KEY
+        value: ""
+      - key: COHERE_API_KEY
+        value: ""
+      
+      # Database (optional)
+      - key: MONGODB_URL
+        value: ""
+    
+    # Health check
+    healthCheckPath: /api/health
+    
+    # Auto-deploy from main branch
+    autoDeploy: true
+    
+    # Build settings
+    buildFilter:
+      paths:
+        - src/**
+        - backend/**
+        - package.json
+        - requirements.txt
+        - render.yaml
+    
+    # Disk storage
+    disk:
+      name: neko-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
+
+# Optional: Redis for caching (upgrade to paid plan)
+# - type: redis
+#   name: neko-redis
+#   plan: free
+#   maxmemoryPolicy: allkeys-lru

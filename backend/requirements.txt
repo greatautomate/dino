@@ -1,0 +1,83 @@
+# Webscout Full-Stack Backend Requirements
+# Core dependencies
+setuptools
+wheel
+pip
+
+# Web scraping and HTTP
+nodriver
+curl_cffi
+requests
+cloudscraper
+aiohttp
+websocket-client
+
+# Text processing and parsing
+mistune
+markdownify
+lxml>=5.2.2
+html5lib
+orjson
+PyYAML
+bson
+
+# AI and ML
+google-generativeai
+openai
+ollama
+gradio_client
+tiktoken
+
+# Image processing
+pillow
+
+# Async and utilities
+nest-asyncio
+aiofiles
+psutil
+
+# Compression
+zstandard
+brotli
+
+# Console and CLI
+colorama
+rich
+
+# API Server dependencies (FastAPI stack)
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# Database (MongoDB async driver)
+motor
+
+# Additional production dependencies for Render
+gunicorn
+
+# CORS support
+fastapi-cors
+
+# Environment management
+python-dotenv
+
+# Validation
+email-validator
+
+# Security
+passlib[bcrypt]
+python-jose[cryptography]
+
+# Rate limiting
+slowapi
+
+# Caching
+redis
+aioredis
+
+# Monitoring
+prometheus-client
+
+# Logging
+structlog
